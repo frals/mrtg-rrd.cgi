@@ -37,12 +37,14 @@ require 5.005;
 use RRDs;
 
 use vars qw(@config_files @all_config_files %targets $config_time
-	%directories $version $imagetype $defaultcolours);
+	%directories $version $imagetype $defaultcolours $css);
 
 # EDIT THIS to reflect all your MRTG config files
 BEGIN { @config_files = qw(/etc/mrtg.cfg); }
 
 $defaultcolours = 'GRAY#aaaaaa,ORANGE#ff9900,DARK GREEN#006600,VIOLET#ff00ff';
+
+$css = '<LINK HREF="/css.css" REL="stylesheet" TYPE="text/css" />';
 
 $version = '0.7';
 
@@ -128,6 +130,7 @@ sub do_html($)
 EOF
 	print $tgt->{title} if defined $tgt->{title};
 	print "</TITLE>\n";
+	print $css;
 
 	html_comments($tgt, 'd', @{$day[0]}) if $#day != -1;
 	html_comments($tgt, 'w', @{$week[0]}) if $#week != -1;
@@ -896,6 +899,7 @@ sub print_dir($) {
 <HTML>
 <HEAD>
 <TITLE>MRTG: Directory $dir1</TITLE>
+$css
 </HEAD>
 EOF
 	print $directories{$dir}{bodytag};
