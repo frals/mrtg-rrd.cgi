@@ -521,8 +521,9 @@ sub common_args($$$)
 
 	$target->{rrd} = $dir . '/' . $tdir . $name . '.rrd';
 
-	%{$target->{options}} = ()
-		unless defined %{$target->{options}};
+	if (!(%{$target->{options}})) {
+		%{$target->{options}} = ();
+	}
 
 	$dir = $cfg->{workdir};
 	$dir = $cfg->{imagedir}
