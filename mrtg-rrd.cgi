@@ -40,7 +40,7 @@ use vars qw(@config_files @all_config_files %targets $config_time
 	%directories $version $imagetype);
 
 # EDIT THIS to reflect all your MRTG config files
-BEGIN { @config_files = qw(/home/fadmin/mrtg/cfg/mrtg.cfg); }
+BEGIN { @config_files = qw(/etc/mrtg.cfg); }
 
 $version = '0.7';
 
