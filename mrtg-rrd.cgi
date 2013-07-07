@@ -37,7 +37,7 @@ require 5.005;
 use RRDs;
 
 use vars qw(@config_files @all_config_files %targets $config_time
-	%directories $version $imagetype $defaultcolours $css);
+	%directories $version $imagetype $defaultcolours $css $disablebanner);
 
 # EDIT THIS to reflect all your MRTG config files
 BEGIN { @config_files = qw(/etc/mrtg.cfg); }
@@ -45,6 +45,8 @@ BEGIN { @config_files = qw(/etc/mrtg.cfg); }
 $defaultcolours = 'GRAY#aaaaaa,ORANGE#ff9900,DARK GREEN#006600,VIOLET#ff00ff';
 
 $css = '<LINK HREF="/css.css" REL="stylesheet" TYPE="text/css" />';
+
+$disablebanner = '1';
 
 $version = '0.7';
 
@@ -199,7 +201,7 @@ EOF
 	}
 
 	print_banner($tgt->{config})
-		unless defined $tgt->{options}{nobanner};
+		unless (defined $tgt->{options}{nobanner} || $disablebanner);
 
 	print $tgt->{pagefoot} if defined $tgt->{pagefoot};
 	print "\n", <<'EOF';
@@ -943,7 +945,8 @@ EOF
 		print "    </TR>\n</TABLE>\n";
 	}
 
-	print_banner($directories{$dir}{config});
+	print_banner($directories{$dir}{config})
+		unless ($disablebanner);
 	print "</BODY>\n</HTML>\n";
 }
 
