@@ -37,10 +37,12 @@ require 5.005;
 use RRDs;
 
 use vars qw(@config_files @all_config_files %targets $config_time
-	%directories $version $imagetype);
+	%directories $version $imagetype $defaultcolours);
 
 # EDIT THIS to reflect all your MRTG config files
 BEGIN { @config_files = qw(/etc/mrtg.cfg); }
+
+$defaultcolours = 'GRAY#aaaaaa,ORANGE#ff9900,DARK GREEN#006600,VIOLET#ff00ff';
 
 $version = '0.7';
 
@@ -701,7 +703,7 @@ sub try_read_config($)
 		kmg => ',k,M,G,T,P',
 		kilo => 1000,
 		bodytag => "<BODY BGCOLOR=#ffffff>\n",
-		colours => 'GREEN#00cc00,BLUE#0000ff,DARK GREEN#006600,MAGENTA#ff00ff,AMBER#ef9f4f',
+		colours => $defaultcolours,
 		legendi => '&nbsp;In:',
 		legendo => '&nbsp;Out:',
 		unscaled => '',
