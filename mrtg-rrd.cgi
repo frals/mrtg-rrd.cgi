@@ -37,12 +37,15 @@ require 5.005;
 use RRDs;
 
 use vars qw(@config_files @all_config_files %targets $config_time
-	%directories $version $imagetype $defaultcolours $css $disablebanner);
+	%directories $version $imagetype $defaultcolours $css $disablebanner
+	$defaultfont);
 
 # EDIT THIS to reflect all your MRTG config files
 BEGIN { @config_files = qw(/etc/mrtg.cfg); }
 
 $defaultcolours = 'GRAY#aaaaaa,ORANGE#ff9900,DARK GREEN#006600,VIOLET#ff00ff';
+
+$defaultfont = 'DEFAULT:7.5:';
 
 $css = '<LINK HREF="/css.css" REL="stylesheet" TYPE="text/css" />';
 
@@ -546,7 +549,7 @@ sub common_args($$$)
 
 	push @args, '--lazy', '-c', 'FONT#000000', '-c',
 		'MGRID#000000', '-c', 'FRAME#000000',
-		'-g', '-l', '0';
+		'-g', '-l', '0', '-n',  $defaultfont;
 
 	$target->{background} = '#f5f5f5'
 		unless defined $target->{background};
