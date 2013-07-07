@@ -1,0 +1,159 @@
+$Id: ChangeLog,v 1.28 2003/08/18 15:58:57 kas Exp $
+
+==================================================================
+RELEASE 0.7
+
+* Mon Aug 18 16:13:16 CEST 2003
+	The "Factor[target]: value" directive implemented. Suggested by
+	Adam Denenberg and others, but I've changed this to modify only numbers
+	below graphs, not the graphs itself - it is documented in MRTG
+	reference(1) manual page to work this way.
+
+	binmode fix for the PNG file as suggested by Paul Rathbone.
+
+	require 5.005 (it should work there, but not tested!)
+
+	thttpd fix by Akihiro Sagawa.
+
+	strftime() now uses only ANSI C standard format string directives.
+
+* Wed Aug 13 16:08:45 CEST 2003
+	Work on noi/noo options based on the implementation by Tobias Gruetzmacher.
+
+* Wed Aug 13 15:46:03 CEST 2003
+	The kMG[]: <empty> now implemented. Fix suggested by Tobias Gruetzmacher,
+	I've modified this slightly.
+
+* Fri Aug  1 17:19:12 CEST 2003
+	The automatic compatibility test for strftime("%-H"), which does not work
+	on some platforms (e.g. Solaris). The "%H" format string is used instead
+	in that case.
+
+* Sun Mar 23 18:06:48 CET 2003
+	Make the version string in "require" portable (5.008 instead of 5.8.0).
+	Fix suggested by Haroon Rafique.
+
+* Mon Mar 17 14:48:31 CET 2003
+	Fixed the undefined variable error when Options[_] was set.
+	Reported by Mark Pelillo, thanks!
+
+==================================================================
+RELEASE 0.6
+
+* Fri Mar 14 14:39:16 CET 2003
+	Bumped the version number to 0.6.
+	Fixed some spelling mistakes in FAQ and TODO.
+	More known bugs/mis-features added to TODO.
+
+* Wed Mar 12 17:05:53 CET 2003
+	Fixed the hard-coded "5 Minute" legend in the daly graph
+		(in fact it should be based on the Interval: setting).
+		Thanks to Vincent Aniello for reporting this.
+	The Interval: parameter is in minutes, not in seconds
+		(as opposed from the Refresh: parameter).
+	Requires Perl 5.8.0 because of the sprintf() handling.
+	Accepts tabs and other whitespace characters at the beginning of
+		line, and before and after the ":" sign in the directive.
+	Reworked handling of [^], [_], and [$] - now it uses [_]
+		when no [target] is set and all of [^], [_] and [$] is set,
+		and [^][target][$] otherwise.
+		Bug reported by Alejandro Marco.
+	Reworked handling of Options[^], [_], and [$]. When no Options[target]
+		is set, all of Options[^], [_], and [$] apply. When Options[target]
+		is set, the Options[^], Options[target], and Options[$] apply.
+		I've try to verify this against MRTG, but its handling of
+		these cases seems to be a bit erratic. Sent a question to the
+		mrtg list, we'll se what reply I get.
+	Added $imagetype configuration variable so that GIF images can be
+		used instead of PNG.
+
+* Wed Oct 30 14:08:46 CET 2002
+	Fixed the "%.1lf" format string (does not work on 5.8.0).
+
+* Wed Apr 14 18:51:52 CEST 2002
+	Fixed the shallow copy of the [_] default values of the "options" hash.
+	Fix by Daniel Drown.
+
+* Wed Apr 10 14:24:06 CEST 2002
+	The X axis labels on the -day graph looks similar to the original
+	MRTG (i.e., labels every 2 hours instead of every 6th hour).
+	Suggested by Glen Gold.
+
+* Mon Feb 25 16:08:18 CET 2002
+	Fixed the ugly bug with Refresh handling in leaf subdirectories.
+
+===================================================================
+RELEASE 0.5
+
+* Thu Feb 21 19:02:40 CET 2002
+	Spelling fixes by Evans O'Shaughnessy.
+	Multilple config files now works even with different WorkDirs etc.
+	The parameters (such as IconDir or Refresh) for the directory
+	is taken from the global configuration directives of the first target
+	in the particular sub-tree.
+	Bumped the version number to 0.5.
+
+* Thu Feb  7 20:36:57 CET 2002
+	Incorrect handling of Suppress[]: d (reported by Luc Ducazu).
+
+* Wed Jan 16 09:16:47 CET 2002
+	Moved mis-placed call to http_headers() after the opening of the
+		PNG file.
+	Added FAQ entry about CGI with PATH_INFO in IIS.
+	Added FAQ entry about operating systems compatibility.
+
+* Fri Jan 11 13:48:34 CET 2002
+	Changed the non-portable strftime("%s", @t) to timelocal(@t)
+		(the timelocal() is in the Time::Local module). This
+		non-portability has been reported by Takuya Mori.
+
+
+===================================================================
+RELEASE 0.4
+
+* Wed Jan  9 13:50:29 CET 2002
+	Fixed the incorrect behaviour when IconDir is not set. Now it displays
+		the icons from the same directory where the script is located.
+	Fixed the misplaced lc() in the config dir name (bug reported by
+		Peter Banfi).
+	Added few bug-hunting tips to the FAQ.
+	Reformated the ChangeLog to the more readable/structured form.
+	Implemented the double-column directory output. When the directory
+		contains both subdirectories and graphs, the directory index
+		consists of two sections - subdirs first and then graphs.
+	The HTML files contain the RCS id of the script in comment in the
+		banner part.
+	Bumped the version number to 0.4
+
+* Tue Jan  8 10:03:41 CET 2002
+	Older versions of RRDtool do not grok the "-g" switch. Added testing
+		the $RRDs::VERSION.
+
+* Mon Jan  7 16:10:39 CET 2002
+	Configuration file directives can have values including whitespace
+		(thanks to Petr Prazak for discovering this).
+	Added checking of the RRD::graph's error code (as suggested by
+		Petr Prazak).
+
+
+===================================================================
+RELEASE 0.3
+
+* Fri Jan  4 18:00:39 CET 2002
+	Directory mode almost fully implemented.
+	Bumped the version number to 0.3
+
+* Wed Jan  2 17:57:31 CET 2002
+	The Directory[] directive is now visible in the URL.
+
+* Tue Dec 18 14:06:29 CET 2001
+	Implemented the following mrtg.cfg directives:
+		Unscaled, WithPeak, XZoom, YZoom
+	Fixed the wrong behaviour of XScale, YScale.
+	Added $version as the separate variable.
+	Fixed the global options so that the graph still starts at y_min=0,
+		even if there is no time when the variable is near 0.
+	Fixed the [^], [_], and [$] behaviour for multiple configuration files
+		(the value should not remain defined from the previous
+		cfg. file).
+

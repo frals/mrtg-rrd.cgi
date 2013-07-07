@@ -1,0 +1,67 @@
+$Id: TODO,v 1.13 2003/08/18 15:56:40 kas Exp $
+
+Unimplemented mrtg.cfg directives
+=================================
+
+Htmldir: (it is determined by the .cgi location); no static HTML is generated
+NoMib2: (and displaying system uptime) I don't want to query routers from
+	the CGI.
+Language: TODO
+Libadd: (handled separately) Don't want to mess with more BEGIN{} statements.
+RouterUptime: I don't want to query the routers from the CGI.
+Extension: (has no meaning)
+YTics: don't know how to tell this to rrdgraph
+YTicsFactor: don't know how to tell this to rrdgraph
+Step: don't know what this should do
+Option:
+	growright: it is the default (don't know how to make growleft graphs)
+SetEnv: Makes sense only for Target[]. Not implemented.
+Weekformat: Dont know how to do this
+
+
+Other TODO/missing items
+========================
+
+More customizable directory listing.
+
+Exact time of the previous VRULE (for month and year graphs).
+
+The CGI speedup methods other than FastCGI (speedycgi?).
+
+Verify that it works on Windows (I have mixed reports both with
+	MS IIS and with Apache on Windows).
+
+Rewrite the config file parsing using MRTG_lib.pm.
+
+Known bugs
+==========
+
+* Directory mode does not honour the "Suppress[]: d" and refers to the daily
+	graph unconditionally.
+* Directory mode does not generate the "WIDHT=" and "HEIGHT=" parameters
+	to the <IMG> tag.
+
+* Sometimes it displays 8-times bigger values than MRTG
+	(Options[target]: bits usually helps there). Probably it has something
+	to do with command-generated stats (Target[...]: `command`) and/or
+	stats converted to RRD format from earlier MRTG log databases.
+
+	I was not able to reproduce this, but I have reports of this behaviour.
+	I tried to create a fresh mrtg.cfg file with "LogFormat: rrdtool"
+	and "Options: bits", and measure the traffic of some switch. Then the
+	mrtg-rrd.cgi generated the graphs and values which were in perfect
+	correspondence with the real world.
+
+* The Refresh: HTTP header sometimes confuses older browser - when this
+	header is added both to the main html file and to the image files,
+	the browser sometimes redirects itself to the image URL instead of
+	the main HTML page. Netscape 4 and Opera 5 and 6 are reported to have
+	this problem (Mozilla, Galeon and MSIE are fine). Since the Refresh:
+	header is not defined in the HTTP specification, there is no "correct"
+	way to solve this. So I'll leave this unfixed.
+
+* The config file parsing is still not 100% MRTG-compatible, mainly
+	with extensive use of [_], [$] and [^] in multiple config files.
+	The fix is to use MRTG_lib.pm directly, but I will do it post 0.7
+	release.
+
