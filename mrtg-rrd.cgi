@@ -549,7 +549,18 @@ sub common_args($$$)
 
 	push @args, '--lazy', '-c', 'FONT#000000', '-c',
 		'MGRID#000000', '-c', 'FRAME#000000',
-		'-g', '-l', '0', '-n',  $defaultfont;
+		'-g', '-n',  $defaultfont;
+
+	# force graphs matching temp to start at 25
+	# force graphs matching fan to start at 1000
+	# force all other graphs to start at 0
+	if ($name =~ m/.*temp.*/) {
+		push @args, '-l', '25', '-r';
+	} elsif ($name =~ m/.*fan.*/) {
+		push @args, '-l', '1000', '-r';
+	} else {
+		push @args, '-l', '0';
+	}
 
 	$target->{background} = '#f5f5f5'
 		unless defined $target->{background};
