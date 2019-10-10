@@ -497,7 +497,7 @@ sub common_args($$$)
 {
 	my ($name, $target, $q) = @_;
 
-	return @{$target->{args}} if defined @{$target->{args}};
+	return @{$target->{args}} if ($target->{args} && @{$target->{args}});
 
 	my $noi = 1 if $target->{options}{noi};
 	my $noo = 1 if $target->{options}{noo};
@@ -922,7 +922,7 @@ EOF
 	print $directories{$dir}{bodytag};
 
 	my $subdirs_printed;
-	if (defined @{$directories{$dir}{subdir}}) {
+	if ($directories{$dir}{subdir} && @{$directories{$dir}{subdir}}) {
 		$subdirs_printed = 1;
 		print <<EOF;
 <H1>MRTG subdirectories in the directory $dir1</H1>
@@ -935,7 +935,7 @@ EOF
 
 		print "</UL>\n";
 	}
-	if (defined @{$directories{$dir}{target}}) {
+	if ($directories{$dir}{target} && @{$directories{$dir}{target}}) {
 		print "<HR>\n" if defined $subdirs_printed;
 		print <<EOF;
 <H1>MRTG graphs in the directory $dir1</H1>
